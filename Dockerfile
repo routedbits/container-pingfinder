@@ -5,4 +5,6 @@ RUN apk add bash curl sed
 WORKDIR /pingfinder
 COPY pingfinder.sh pingfinder.sh
 
-CMD bash pingfinder.sh
+RUN echo '*/5 * * * * bash /pingfinder/pingfinder.sh' >> /etc/crontabs/root
+
+CMD ["/usr/sbin/crond", "-f"]
