@@ -3,6 +3,8 @@ name: Image Build and Push
 on:
   push: 
     branches: [main]
+  release:
+    types: [published]
 
 jobs:
   build-and-push-image:
