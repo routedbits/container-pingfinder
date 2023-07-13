@@ -1,8 +1,8 @@
 ---
-name: Image Build and Push
+name: Release Build and Publish
 on:
-  push: 
-    branches: [main]
+  release:
+    types: [published]
 
 jobs:
   build-and-push-image:
@@ -13,6 +13,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Get release version
+        id: get_version
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
       - name: Log in to the Container registry
         uses: docker/login-action@v2
@@ -26,4 +30,4 @@ jobs:
         with:
           push: true
           tags: |
-            ghcr.io/routedbits/pingfinder:latest
+            ghcr.io/routedbits/pingfinder:${{ env.RELEASE_VERSION }}
